@@ -114,6 +114,7 @@ pub fn build(b: *std.Build) void {
     test_step.dependOn(&run_lib_unit_tests.step);
     test_step.dependOn(&run_exe_unit_tests.step);
 
+    // *** HTTP
     const httpz = b.dependency("httpz", .{
         .target = target,
         .optimize = optimize,
@@ -121,4 +122,11 @@ pub fn build(b: *std.Build) void {
 
     // the executable from your call to b.addExecutable(...)
     exe.root_module.addImport("httpz", httpz.module("httpz"));
+
+    // *** SQLITE
+    const sqlite = b.dependency("sqlite", .{
+        .target = target,
+        .optimize = optimize,
+    });
+    exe.root_module.addImport("sqlite", sqlite.module("sqlite"));
 }
